@@ -193,7 +193,7 @@ const AddTeacher = () => {
                         <FormSubmitBtn className={btnState}>Add Teacher</FormSubmitBtn>
                     </FormGroup>
                 </form>
-                <small>Teacher will be required to fill optional values when completing their profile</small>
+                <small>Teacher will be required to fill optional values when completing their profile.</small>
 
                 <Alert
                     alert={alert}
