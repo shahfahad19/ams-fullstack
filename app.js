@@ -18,12 +18,12 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 
-app.use('/user', authRouter);
-app.use('/users', userRouter);
-app.use('/batches', batchRouter);
-app.use('/semesters', semesterRouter);
-app.use('/subjects', subjectRouter);
-app.use('/attendances', attendanceRouter);
+app.use('/api/user', authRouter);
+app.use('/api/users', userRouter);
+app.use('/api/batches', batchRouter);
+app.use('/api/semesters', semesterRouter);
+app.use('/api/subjects', subjectRouter);
+app.use('/api/attendances', attendanceRouter);
 
 // For any other route, send the index.html file
 app.get('*', (req, res) => {

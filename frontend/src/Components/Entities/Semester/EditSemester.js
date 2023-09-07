@@ -30,7 +30,7 @@ const EditSemester = () => {
         else setSemesterError('');
     };
 
-    const submitForm = async () => {
+    const submitForm = async (event) => {
         event.preventDefault();
         if (semesterName.current.value === '') {
             setSemesterError('Semester name required');

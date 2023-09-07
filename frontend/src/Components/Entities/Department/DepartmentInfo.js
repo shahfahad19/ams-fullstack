@@ -2,8 +2,6 @@ import React, { useContext, useRef, useState } from 'react';
 import AppContext from '../../Context/AppContext';
 import { Form, useOutletContext, useParams } from 'react-router-dom';
 import SubSectionHeader from '../../Utils/SubSectionHeader';
-import withReactContent from 'sweetalert2-react-content';
-import Swal from 'sweetalert2';
 import axios from 'axios';
 import DepartmentDeleteBtn from './DepartmentDeleteBtn';
 import { SpinnerWithText } from '../../Utils/Spinner';
@@ -19,7 +17,6 @@ const DepartmentInfo = () => {
     const [btnState, setBtnState] = useState('');
     const [emailError, setEmailError] = useState('');
 
-    const MySwal = withReactContent(Swal);
     const [showEditAdminModal, setShowEditAdminModal] = useState();
     const [alertModal, setAlertModal] = useState({
         show: false,
@@ -114,7 +111,7 @@ const DepartmentInfo = () => {
                     <button className='btn btn-block btn-secondary mt-1' onClick={editAdminModalHandler}>
                         Change Admin
                     </button>
-                    <DepartmentDeleteBtn department={department} params={params} ctx={ctx} MySwal={MySwal} />
+                    <DepartmentDeleteBtn department={department} params={params} ctx={ctx} />
                 </FormWrapper>
             )}
 
