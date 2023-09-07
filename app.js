@@ -16,8 +16,6 @@ app.use(express.json());
 app.use(cookieParser());
 // app.use(bodyParser.text({ type: '/' }));
 
-app.use(express.static(path.join(__dirname, 'frontend/build')));
-
 app.use('/api/user', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/batches', batchRouter);
@@ -25,7 +23,7 @@ app.use('/api/semesters', semesterRouter);
 app.use('/api/subjects', subjectRouter);
 app.use('/api/attendances', attendanceRouter);
 
-// For any other route, send the index.html file
+app.use(express.static(path.join(__dirname, 'frontend/build')));
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
