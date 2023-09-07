@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/', auth.protect, userController.getUser);
 router.post('/signup', auth.verifyCaptcha, auth.signup);
 router.post('/login', auth.verifyCaptcha, auth.login);
-router.get('/logout', auth.verifyCaptcha, auth.logout);
+router.get('/logout', auth.logout);
 
 router.post('/forgotPassword', auth.verifyCaptcha, auth.forgotPassword);
 router.get('/checkResetToken/:token', auth.checkResetPasswordLink);

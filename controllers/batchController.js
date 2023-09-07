@@ -75,9 +75,15 @@ exports.getBatch = catchAsync(async (req, res, next) => {
 
 exports.updateBatch = catchAsync(async (req, res, next) => {
     const filteredObj = filterObj(req.body, 'name', 'archived');
+
+    const batchInfo = await Batch.findByIdAndUpdate(req.params.id);
+
+    if (batchInfo.archived !== filteredObj.archived) {
+        await batchInfo.archiveBatch();
+    }
     const batch = await Batch.findByIdAndUpdate(req.params.id, filteredObj, {
         new: true,
-    }).select('-admin');
+    }).populate('admin');
 
     res.status(200).json({
         status: 'success',

@@ -54,11 +54,14 @@ const EditBatch = () => {
             setBatchErrorMsg('');
         }
         setAlert({ show: false });
+
         setSubmitBtnState('btn-loading');
+
         const batchData = {
             name: batchName.current.value,
             archived: archived.current.value === 'True',
         };
+
         await axios
             .patch(`${ctx.baseURL}/batches/${params.batchId}`, batchData, {
                 credentials: 'include',

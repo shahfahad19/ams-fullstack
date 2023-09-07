@@ -49,17 +49,22 @@ batchSchema.methods.archiveBatch = async function () {
     const batch = this._id;
 
     try {
-        // Archive the batch
-        this.archived = true;
-        await this.save();
+        if (!this.archived) {
+            // Archive the batch
+            this.archived = true;
+            await this.save();
 
-        // Archive related semesters
-        await Semester.updateMany({ batch }, { archived: true });
+            // Archive related semesters
+            await Semester.updateMany({ batch }, { archived: true });
 
-        // Archive related subjects
-        await Subject.updateMany({ semester: { $in: await getSemesterIds(batch) } }, { archived: true });
+            // Archive related subjects
+            await Subject.updateMany({ semester: { $in: await getSemesterIds(batch) } }, { archived: true });
 
-        console.log('Batch archived successfully.');
+            console.log('Batch archived successfully.');
+        } else {
+            this.archived = false;
+            await this.save();
+        }
     } catch (err) {
         console.error('Error archiving batch:', err);
     }
