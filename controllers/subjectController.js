@@ -153,7 +153,7 @@ exports.deleteSubject = catchAsync(async (req, res, next) => {
 
 // getting teacher subjects (to get his/her own subject)
 exports.getTeacherSubjects = catchAsync(async (req, res) => {
-    const features = new APIFeatures(Subject.find({ teacher: req.user._id, archived: false }), req.query)
+    const features = new APIFeatures(Subject.find({ teacher: req.user._id }), req.query)
         .filter()
         .sort()
         .limit()
@@ -170,15 +170,16 @@ exports.getTeacherSubjects = catchAsync(async (req, res) => {
     const subjectsArr = [];
 
     subjects.forEach((subject) => {
-        subjectsArr.push({
-            _id: subject._id,
-            name: subject.name,
-            creditHours: subject.creditHours,
-            semesterName: subject.semester.name,
-            batchId: subject.semester.batch._id,
-            batchName: subject.semester.batch.name,
-            department: subject.semester.batch.admin.department,
-        });
+        if (subject.semester.archived)
+            subjectsArr.push({
+                _id: subject._id,
+                name: subject.name,
+                creditHours: subject.creditHours,
+                semesterName: subject.semester.name,
+                batchId: subject.semester.batch._id,
+                batchName: subject.semester.batch.name,
+                department: subject.semester.batch.admin.department,
+            });
     });
 
     res.status(200).json({
@@ -199,7 +200,7 @@ exports.removeSubjectFromTeacher = catchAsync(async (req, res, next) => {
 
 // for admin and super admin
 exports.getTeachersSubjects = catchAsync(async (req, res) => {
-    const subjects = await Subject.find({ teacher: req.params.id, archived: false }).populate({
+    const subjects = await Subject.find({ teacher: req.params.id }).populate({
         path: 'semester',
         populate: {
             path: 'batch',

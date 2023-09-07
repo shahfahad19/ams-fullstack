@@ -57,9 +57,6 @@ batchSchema.methods.archiveBatch = async function () {
             // Archive related semesters
             await Semester.updateMany({ batch }, { archived: true });
 
-            // Archive related subjects
-            await Subject.updateMany({ semester: { $in: await getSemesterIds(batch) } }, { archived: true });
-
             console.log('Batch archived successfully.');
         } else {
             this.archived = false;

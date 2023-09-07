@@ -46,14 +46,16 @@ semesterSchema.methods.archiveSemester = async function () {
     const semesterId = this._id;
 
     try {
-        // Archive the semester
-        this.archived = true;
-        await this.save();
+        if (!this.archived) {
+            // Archive the semester
+            this.archived = true;
+            await this.save();
 
-        // Archive related subjects
-        await mongoose.model('Subject').updateMany({ semesterId }, { archived: true });
-
-        console.log('Semester archived successfully.');
+            console.log('Semester archived successfully.');
+        } else {
+            this.archived = false;
+            await this.save();
+        }
     } catch (err) {
         console.error('Error archiving semester:', err);
     }

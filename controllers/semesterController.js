@@ -78,6 +78,12 @@ exports.createSemester = catchAsync(async (req, res) => {
 });
 
 exports.updateSemester = catchAsync(async (req, res) => {
+    const semesterInfo = await Semester.findByIdAndUpdate(req.params.id);
+
+    if (semesterInfo.archived !== filteredObj.archived) {
+        await semesterInfo.archiveSemester();
+    }
+
     const semester = await Semester.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
     }).populate('batch');

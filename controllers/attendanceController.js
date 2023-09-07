@@ -224,7 +224,7 @@ exports.getSubjectAttendance = catchAsync(async (req, res) => {
             ids,
             dates,
             attendances,
-            subject: attendanceCount[0].subject,
+            subject: attendanceCount > 0 ? attendanceCount[0].subject : null,
         },
     });
 });
