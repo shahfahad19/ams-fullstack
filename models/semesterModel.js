@@ -43,8 +43,6 @@ semesterSchema.virtual('admin').get(function () {
 
 // Method to archive semester and subjects
 semesterSchema.methods.archiveSemester = async function () {
-    const semesterId = this._id;
-
     try {
         if (!this.archived) {
             // Archive the semester
@@ -54,6 +52,8 @@ semesterSchema.methods.archiveSemester = async function () {
             console.log('Semester archived successfully.');
         } else {
             this.archived = false;
+            console.log('Semester unarchived successfully.');
+
             await this.save();
         }
     } catch (err) {

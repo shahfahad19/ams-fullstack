@@ -77,16 +77,27 @@ exports.createSemester = catchAsync(async (req, res) => {
     });
 });
 
-exports.updateSemester = catchAsync(async (req, res) => {
-    const semesterInfo = await Semester.findByIdAndUpdate(req.params.id);
+exports.updateSemester = catchAsync(async (req, res, next) => {
+    const semesterInfo = await Semester.findByIdAndUpdate(req.params.id).populate('batch');
 
-    if (semesterInfo.archived !== filteredObj.archived) {
+    console.log(semesterInfo.batch.archived && req.body);
+    if (semesterInfo.batch.archived && !req.body.archived) {
+        console.log('OOps');
+        return next(new AppError('This batch is archived', 400));
+    } else {
+        console.log(semesterInfo.batch.archived, req.body.archived);
+    }
+
+    if (semesterInfo.archived !== req.body.archived) {
         await semesterInfo.archiveSemester();
     }
 
     const semester = await Semester.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
-    }).populate('batch');
+    }).populate({
+        path: 'batch',
+        populate: 'admin',
+    });
 
     res.status(200).json({
         status: 'success',
