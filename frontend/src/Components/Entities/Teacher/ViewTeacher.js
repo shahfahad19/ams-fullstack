@@ -5,12 +5,14 @@ import AppContext from '../../Context/AppContext';
 import Menu, { MenuItems, MenuItem } from '../../Utils/Menu';
 import DepartmentName from '../Department/DepartmentName';
 import { BreadCrumb, BreadCrumbs } from '../../Utils/BreadCrumbs';
+import { AlertModal } from '../../Utils/Modal';
 
 const ViewTeacher = () => {
     const params = useParams();
     const ctx = useContext(AppContext);
 
     const [teacher, setTeacher] = useState();
+    const [error, setError] = useState();
 
     useEffect(() => {
         axios
@@ -21,16 +23,14 @@ const ViewTeacher = () => {
                 setTeacher(response.data.data.teacher);
             })
             .catch((error) => {
-                if (error.response) {
-                    if (error.response.status === 404) {
-                        ctx.navigate('/404', { replace: true });
-                    }
-                }
+                setError(ctx.computeError(error));
             });
     }, []);
 
     return (
         <>
+            {error && <AlertModal type='error' text={error} handler={() => ctx.navigate(-1)} />}
+
             {ctx.userData.role === 'admin' && <DepartmentName name={ctx.userData.department} />}
             {ctx.userData.role === 'super-admin' && teacher && (
                 <DepartmentName name={teacher.departmentId.department} />

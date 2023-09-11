@@ -29,7 +29,7 @@ const ViewSubject = () => {
 
     return (
         <>
-            {error.show && <AlertModal type='error' text={error.text} handler={() => ctx.navigate(-1)} />}
+            {error && <AlertModal type='error' text={error} handler={() => ctx.navigate(-1)} />}
 
             {subject.name && <DepartmentName name={subject.semester.batch.admin.department} />}
             <BreadCrumbs>

@@ -29,7 +29,7 @@ const ViewBatch = () => {
 
     return (
         <>
-            {error.show && <AlertModal type='error' text={error.text} handler={() => ctx.navigate(-1)} />}
+            {error && <AlertModal type='error' text={error} handler={() => ctx.navigate(-1)} />}
 
             {batch && <DepartmentName name={batch.admin.department} />}
             <BreadCrumbs>

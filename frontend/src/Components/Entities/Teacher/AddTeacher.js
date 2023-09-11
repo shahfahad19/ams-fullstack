@@ -86,7 +86,7 @@ const AddTeacher = () => {
 
     return (
         <>
-            {error.show && <AlertModal type='error' text={error.text} handler={() => ctx.navigate(-1)} />}
+            {error && <AlertModal type='error' text={error} handler={() => ctx.navigate(-1)} />}
 
             {ctx.userData.role === 'admin' && <DepartmentName name={ctx.userData.name} />}
             {ctx.userData.role === 'super-admin' && departmentName && <DepartmentName name={departmentName} />}
