@@ -151,7 +151,7 @@ exports.deleteSubject = catchAsync(async (req, res, next) => {
     });
 });
 
-// getting teacher subjects (to get his/her own subject)
+// getting teacher subjects (to get their own subject)
 exports.getTeacherSubjects = catchAsync(async (req, res) => {
     const features = new APIFeatures(Subject.find({ teacher: req.user._id }), req.query)
         .filter()
@@ -168,9 +168,9 @@ exports.getTeacherSubjects = catchAsync(async (req, res) => {
     });
 
     const subjectsArr = [];
-
+    console.log(subjects);
     subjects.forEach((subject) => {
-        if (subject.semester.archived)
+        if (subject.semester.archived == false)
             subjectsArr.push({
                 _id: subject._id,
                 name: subject.name,
@@ -184,7 +184,7 @@ exports.getTeacherSubjects = catchAsync(async (req, res) => {
 
     res.status(200).json({
         status: 'success',
-        results: subjects.length,
+        results: subjectsArr.length,
         data: {
             subjects: subjectsArr,
         },

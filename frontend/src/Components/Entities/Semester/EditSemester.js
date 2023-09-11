@@ -43,7 +43,7 @@ const EditSemester = () => {
         setBtnState('btn-loading');
         const semesterData = {
             name: semesterName.current.value,
-            archived: archived.current.value === 'True',
+            archived: archived.current.value === 'true',
         };
         setAlert({ show: false });
 
@@ -108,12 +108,12 @@ const EditSemester = () => {
                                 <FormControl>
                                     <select
                                         className={ctx.selectClasses}
-                                        defaultValue={semester.archived ? true : false}
+                                        defaultValue={semester.archived ? 'true' : 'false'}
                                         ref={archived}
                                         required
                                     >
-                                        <option>True</option>
-                                        <option>False</option>
+                                        <option value='true'>True</option>
+                                        <option value='false'>False</option>
                                     </select>
                                 </FormControl>
                             </FormField>
