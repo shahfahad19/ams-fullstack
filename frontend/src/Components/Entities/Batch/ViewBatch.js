@@ -5,12 +5,14 @@ import AppContext from '../../Context/AppContext';
 import Menu, { MenuItems, MenuItem } from '../../Utils/Menu';
 import DepartmentName from '../Department/DepartmentName';
 import { BreadCrumb, BreadCrumbs } from '../../Utils/BreadCrumbs';
+import { AlertModal } from '../../Utils/Modal';
 
 const ViewBatch = () => {
     const params = useParams();
     const ctx = useContext(AppContext);
 
     const [batch, setBatch] = useState();
+    const [error, setError] = useState();
 
     useEffect(() => {
         axios
@@ -21,12 +23,14 @@ const ViewBatch = () => {
                 setBatch(response.data.data.batch);
             })
             .catch((error) => {
-                ctx.handleError(error);
+                setError(ctx.computeError(error));
             });
     }, []);
 
     return (
         <>
+            {error.show && <AlertModal type='error' text={error.text} handler={() => ctx.navigate(-1)} />}
+
             {batch && <DepartmentName name={batch.admin.department} />}
             <BreadCrumbs>
                 <BreadCrumb to='/'>Home</BreadCrumb>

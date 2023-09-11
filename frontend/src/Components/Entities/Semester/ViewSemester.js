@@ -5,6 +5,7 @@ import AppContext from '../../Context/AppContext';
 import Menu, { MenuItem, MenuItems } from '../../Utils/Menu';
 import DepartmentName from '../Department/DepartmentName';
 import { BreadCrumb, BreadCrumbs } from '../../Utils/BreadCrumbs';
+import { AlertModal } from '../../Utils/Modal';
 
 const ViewSemester = () => {
     const params = useParams();
@@ -13,6 +14,7 @@ const ViewSemester = () => {
         name: '',
         batch: { name: '' },
     });
+    const [error, setError] = useState();
 
     useEffect(() => {
         axios
@@ -23,12 +25,14 @@ const ViewSemester = () => {
                 setSemester(response.data.data.semester);
             })
             .catch((error) => {
-                ctx.handleError(error);
+                setError(ctx.computeError(error));
             });
     }, []);
 
     return (
         <>
+            {error.show && <AlertModal type='error' text={error.text} handler={() => ctx.navigate(-1)} />}
+
             {semester.name && <DepartmentName name={semester.batch.admin.department} />}
             <BreadCrumbs>
                 <BreadCrumb to='/'>Home</BreadCrumb>

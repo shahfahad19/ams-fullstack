@@ -17,11 +17,13 @@ import Alert from '../../Utils/Alert';
 import { BreadCrumb, BreadCrumbs } from '../../Utils/BreadCrumbs';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
+import { AlertModal } from '../../Utils/Modal';
 
 const AddTeacher = () => {
     const params = useParams();
     const [btnState, setBtnState] = useState('');
     const [departmentName, setDepartmentName] = useState();
+    const [error, setError] = useState();
 
     const ctx = useContext(AppContext);
 
@@ -43,7 +45,7 @@ const AddTeacher = () => {
                     setDepartmentName(response.data.data.department.department);
                 })
                 .catch((error) => {
-                    ctx.handleError(error);
+                    setError(ctx.computeError(error));
                 });
         }
     }, []);
@@ -84,6 +86,8 @@ const AddTeacher = () => {
 
     return (
         <>
+            {error.show && <AlertModal type='error' text={error.text} handler={() => ctx.navigate(-1)} />}
+
             {ctx.userData.role === 'admin' && <DepartmentName name={ctx.userData.name} />}
             {ctx.userData.role === 'super-admin' && departmentName && <DepartmentName name={departmentName} />}
 

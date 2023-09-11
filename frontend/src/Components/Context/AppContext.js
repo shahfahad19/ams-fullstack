@@ -13,7 +13,6 @@ const AppContext = React.createContext({
     inputClasses: '',
     btnClasses: '',
     selectClasses: '',
-    error: {},
     logout: () => {},
     login: () => {},
     changeTheme: () => {},
@@ -21,14 +20,12 @@ const AppContext = React.createContext({
     computeError: () => {},
     successAlert: () => {},
     errorAlert: () => {},
-    handleError: () => {},
     setUserData: () => {},
 });
 
 export const AppContextProvider = (props) => {
     const [isLoggedIn, setLoggedIn] = useState('wait');
     const [loggedInAs, setLoggedInAs] = useState();
-    const [error, setError] = useState();
     const navigate = useNavigate();
 
     const [theme, setTheme] = useState('light');
@@ -42,7 +39,7 @@ export const AppContextProvider = (props) => {
         // Getting theme
         let savedTheme = '';
         try {
-            savedTheme = localStorage.getItem('theme') !==null ? localStorage.getItem('theme') : 'light';
+            savedTheme = localStorage.getItem('theme') !== null ? localStorage.getItem('theme') : 'light';
         } catch (err) {
             savedTheme = 'light';
         }
@@ -52,7 +49,6 @@ export const AppContextProvider = (props) => {
         setTheme(savedTheme);
 
         axios
-            // eslint-disable-next-line no-undef
             .get('/api/user', {
                 credentials: 'include',
             })
@@ -70,7 +66,6 @@ export const AppContextProvider = (props) => {
         setLoggedIn('wait');
 
         axios
-            // eslint-disable-next-line no-undef
             .get(`/api/user`, {
                 credentials: 'include',
             })
@@ -86,7 +81,6 @@ export const AppContextProvider = (props) => {
         setLoggedInAs('');
         setUserData({});
         axios
-            // eslint-disable-next-line no-undef
             .get(`/api/user/logout`, {
                 credentials: 'include',
             })
@@ -127,11 +121,6 @@ export const AppContextProvider = (props) => {
         }
     };
 
-    const handleError = (error) => {
-        setError(error);
-        navigate('/error', { replace: true });
-    };
-
     return (
         <AppContext.Provider
             value={{
@@ -143,8 +132,6 @@ export const AppContextProvider = (props) => {
                 theme: theme,
                 baseURL: '/api',
                 captchaKey: '6Lc3CBYkAAAAAJU9k9WPIqo5l9lWT4K4J8jhjFip',
-                error: error,
-                handleError,
                 setUserData,
                 btnClasses: 'btn btn-primary btn-block',
                 inputClasses: 'input w-full input-block input-lg',

@@ -5,11 +5,13 @@ import AppContext from '../../Context/AppContext';
 import DepartmentName from '../Department/DepartmentName';
 import { BreadCrumb, BreadCrumbs } from '../../Utils/BreadCrumbs';
 import Menu, { MenuItem, MenuItems } from '../../Utils/Menu';
+import { AlertModal } from '../../Utils/Modal';
 
 const ViewStudent = () => {
     const ctx = useContext(AppContext);
     const params = useParams();
     const [student, setStudent] = useState(null);
+    const [error, setError] = useState();
 
     useEffect(() => {
         const getData = async () => {
@@ -21,7 +23,7 @@ const ViewStudent = () => {
                     setStudent(response.data.data.student);
                 })
                 .catch((error) => {
-                    ctx.handleError(error);
+                    setError(ctx.computeError(error));
                 });
         };
 
@@ -30,6 +32,8 @@ const ViewStudent = () => {
 
     return (
         <>
+            {error.show && <AlertModal type='error' text={error.text} handler={() => ctx.navigate(-1)} />}
+
             {ctx.userData.role === 'admin' && <DepartmentName name={ctx.userData.department} />}
             {ctx.userData.role === 'super-admin' && student && <DepartmentName name={student.batch.admin.department} />}
 

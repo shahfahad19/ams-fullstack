@@ -5,6 +5,7 @@ import AppContext from '../../Context/AppContext';
 import Menu, { MenuItems, MenuItem } from '../../Utils/Menu';
 import { BreadCrumb, BreadCrumbs } from '../../Utils/BreadCrumbs';
 import DepartmentName from './DepartmentName';
+import { AlertModal } from '../../Utils/Modal';
 
 const ViewDepartment = () => {
     const params = useParams();
@@ -13,6 +14,8 @@ const ViewDepartment = () => {
     const [department, setDepartment] = useState({
         department: '',
     });
+
+    const [error, setError] = useState();
 
     useEffect(() => {
         axios
@@ -23,12 +26,14 @@ const ViewDepartment = () => {
                 setDepartment(response.data.data.department);
             })
             .catch((error) => {
-                ctx.handleError(error);
+                setError(ctx.computeError(error));
             });
     }, []);
 
     return (
         <>
+            {error.show && <AlertModal type='error' text={error.text} handler={() => ctx.navigate(-1)} />}
+
             {department.department && <DepartmentName name={department.department} />}
             <BreadCrumbs>
                 <BreadCrumb to='/'>Home</BreadCrumb>
