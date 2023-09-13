@@ -27,11 +27,12 @@ const UpdatePassword = () => {
         text: '',
     });
 
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-    const toggleShowPassword = () => setShowPassword(!showPassword);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const toggleShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+    const toggleShowNewPassword = () => setShowNewPassword(!showNewPassword);
     const toggleShowCurrentPassword = () => setShowCurrentPassword(!showCurrentPassword);
 
     const {
@@ -98,8 +99,8 @@ const UpdatePassword = () => {
                                         onClick={toggleShowCurrentPassword}
                                         className='absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 hover:text-gray-600 cursor-pointer'
                                     >
-                                        {!showPassword && <ShowIcon />}
-                                        {showPassword && <HideIcon />}
+                                        {!showCurrentPassword && <ShowIcon />}
+                                        {showCurrentPassword && <HideIcon />}
                                     </button>
                                 </div>
                             </FormControl>
@@ -112,7 +113,7 @@ const UpdatePassword = () => {
                                 <div className='relative w-full'>
                                     <input
                                         className={`${ctx.inputClasses} ${errors.password && 'input-error'}`}
-                                        type={showPassword ? 'text' : 'password'}
+                                        type={showNewPassword ? 'text' : 'password'}
                                         {...register('password', {
                                             required: {
                                                 value: true,
@@ -130,11 +131,11 @@ const UpdatePassword = () => {
                                     />
                                     <button
                                         type='button'
-                                        onClick={toggleShowPassword}
+                                        onClick={toggleShowNewPassword}
                                         className='absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 hover:text-gray-600 cursor-pointer'
                                     >
-                                        {!showPassword && <ShowIcon />}
-                                        {showPassword && <HideIcon />}
+                                        {!showNewPassword && <ShowIcon />}
+                                        {showNewPassword && <HideIcon />}
                                     </button>
                                 </div>
                             </FormControl>

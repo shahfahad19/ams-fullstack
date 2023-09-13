@@ -82,9 +82,12 @@ const SubjectAttendanceList = () => {
                             <tr key={attendance._id}>
                                 <td>{attendance.rollNo}</td>
                                 <td className='text-bold'>
-                                    <Link className='underline' to={`./../../../student/${attendance._id}`}>
-                                        {attendance.name}
-                                    </Link>
+                                    {ctx.userData.role !== 'teacher' && (
+                                        <Link className='underline' to={`./../../../student/${attendance._id}`}>
+                                            {attendance.name}
+                                        </Link>
+                                    )}
+                                    {ctx.userData.role === 'teacher' && <> {attendance.name}</>}
                                 </td>
 
                                 {dates.map((date, index) => (
